@@ -37,6 +37,55 @@ public class BinarySearchTree<K extends Comparable<K>,V>{
          return search(node.rightNode,key);
       }
    }
+   public void dele(K key){
+      root = deleNode(root,key);
+   }
+
+   private Node deleNode(Node node, K key) {
+      if(node==null)return null;
+      if(node.key.compareTo(key)>0){
+         return deleNode(node.rightNode,key);
+      }else if(node.key.compareTo(key)<0){
+         return deleNode(node.leftNode,key);
+      }else {
+         if(node.getLeftNode()==null){
+            return node.getRightNode();
+         }
+         if(node.getRightNode()==null){
+            return node.getLeftNode();
+         }
+         Node minNode = minNode(node.getRightNode());
+         minNode.leftNode = node.leftNode;
+         minNode.rightNode = delMin(node.getRightNode());
+         return minNode;
+      }
+   }
+   private Node minNode(Node node) {
+      if (node.getLeftNode() == null) {
+         return node;
+      }
+      return minNode(node.getLeftNode());
+   }
+   public void delMax() {
+      root = delMax(root);
+   }
+   private Node delMax(Node node) {
+      if (node.getRightNode() == null) {
+         return node.getLeftNode();
+      }
+      node.rightNode = delMax(node.getRightNode());
+      return node;
+   }
+   public void delMin() {
+      root = delMin(root);
+   }
+   private Node delMin(Node node) {
+      if (node.getLeftNode() == null) {
+         return node.getRightNode();
+      }
+      node.rightNode = delMax(node.getLeftNode());
+      return node;
+   }
    public Node getRoot() {
       return root;
    }
